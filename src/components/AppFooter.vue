@@ -130,6 +130,7 @@
               <input 
                 v-model="email"
                 type="email" 
+                name="email"
                 placeholder="Enter your email address"
                 required
                 :disabled="isSubmitting"
@@ -146,31 +147,15 @@
               :disabled="isSubmitting"
               class="subscribe-button relative w-full group overflow-hidden rounded-lg bg-gradient-to-r from-[#F9A825] to-[#F57F17] px-5 py-2.5 font-semibold text-black shadow-md transition-all duration-300 hover:shadow-[#F9A825]/30 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              <!-- Animated Background -->
-              <span class="absolute inset-0 bg-gradient-to-r from-[#FBC02D] to-[#F57F17] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              
-              <!-- Ripple Effect -->
-              <span class="absolute inset-0 w-full h-full">
-                <span class="absolute inset-0 bg-white/30 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-500 origin-center"></span>
-              </span>
-              
-              <!-- Button Content -->
               <span class="relative flex items-center justify-center gap-2">
-                <!-- Loading Spinner -->
                 <svg v-if="isSubmitting" class="w-4 h-4 animate-spin text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                
-                <!-- Send Icon -->
                 <svg v-else class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
-                
                 <span class="font-semibold">{{ isSubmitting ? 'Subscribing...' : 'Subscribe Now' }}</span>
-                
-                <!-- Glow Effect -->
-                <span class="absolute -right-8 -top-8 w-16 h-16 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></span>
               </span>
             </button>
           </form>
@@ -197,12 +182,7 @@
     </div>
 
     <!-- Bottom Bar -->
-    <div
-      v-motion
-      :initial="{ opacity: 0 }"
-      :visible="{ opacity: 1, transition: { delay: 300, duration: 500 } }"
-      class="border-t border-gray-900 relative z-10"
-    >
+    <div class="border-t border-gray-900 relative z-10">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
           <p class="text-gray-600">
@@ -224,9 +204,6 @@
     <Transition name="toast">
       <div 
         v-if="showToast"
-        v-motion
-        :initial="{ opacity: 0, x: 50, scale: 0.8 }"
-        :visible="{ opacity: 1, x: 0, scale: 1 }"
         class="fixed bottom-4 right-4 px-5 py-2.5 rounded-lg shadow-xl flex items-center gap-2 z-50 bg-gradient-to-r from-[#F9A825] to-[#F57F17] text-black text-sm"
       >
         <i class="fas fa-check-circle"></i>
@@ -289,7 +266,7 @@ const socialLinks = [
     name: 'Instagram', 
     url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr', 
     icon: 'fab fa-instagram', 
-    bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600'
+    bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500'
   },
   { 
     name: 'Twitter', 
@@ -299,24 +276,25 @@ const socialLinks = [
   },
   { 
     name: 'TikTok', 
-    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5', 
+    url: 'https://www.tiktok.com/@xmaopportunitiesportal', 
     icon: 'fab fa-tiktok', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   }
 ]
 
 const handleSubscribe = async () => {
-  // Clear previous errors
+  // Clear previous messages
   errorMessage.value = ''
   
   // Validate email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!email.value.trim()) {
+  const trimmedEmail = email.value.trim()
+  if (!trimmedEmail) {
     errorMessage.value = 'Please enter your email address'
     return
   }
   
-  if (!emailRegex.test(email.value)) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(trimmedEmail)) {
     errorMessage.value = 'Please enter a valid email address (e.g., name@example.com)'
     return
   }
@@ -324,86 +302,68 @@ const handleSubscribe = async () => {
   isSubmitting.value = true
   
   try {
-    // Make sure we're sending the email exactly as the backend expects
-    const response = await axios.post(
-      'https://backendgo-production-18ba.up.railway.app/api/subscribe',
-      { email: email.value.trim() },  // Send as { email: "value" }
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        timeout: 10000 // 10 second timeout
-      }
-    )
+    console.log('Sending email:', trimmedEmail) // Debug log
     
-    // Check if subscription was successful
+    const response = await axios({
+      method: 'post',
+      url: 'https://backendgo-production-18ba.up.railway.app/api/subscribe',
+      data: {
+        email: trimmedEmail
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      timeout: 15000
+    })
+    
+    console.log('Response:', response.data) // Debug log
+    
     if (response.data && response.data.success === true) {
-      toastMessage.value = response.data.message || 'Successfully subscribed! Check your inbox for updates.'
+      toastMessage.value = response.data.message || 'Successfully subscribed!'
       showToast.value = true
-      email.value = '' // Clear the email input
+      email.value = ''
       
-      // Hide toast after 4 seconds
       setTimeout(() => {
         showToast.value = false
       }, 4000)
     } else {
-      // Handle case where success is false but no error thrown
       errorMessage.value = response.data?.message || 'Subscription failed. Please try again.'
     }
     
   } catch (error) {
-    console.error('Subscription error details:', error)
+    console.error('Full error object:', error)
     
-    // Handle different types of errors
-    if (error.code === 'ECONNABORTED') {
-      errorMessage.value = 'Request timed out. Please check your connection and try again.'
-    } else if (error.response) {
-      // Server responded with error status
-      console.log('Error response data:', error.response.data)
+    if (error.response) {
+      // Server responded with error
+      console.log('Error data:', error.response.data)
       console.log('Error status:', error.response.status)
       
       if (error.response.status === 400) {
-        // Show the specific error message from the server
-        const serverMessage = error.response.data?.message
-        if (serverMessage) {
-          errorMessage.value = serverMessage
-        } else {
-          errorMessage.value = 'Invalid request. Please check your email and try again.'
-        }
+        errorMessage.value = error.response.data?.message || 'Invalid request. Please check your email.'
       } else if (error.response.status === 500) {
         errorMessage.value = 'Server error. Please try again later.'
       } else {
         errorMessage.value = error.response.data?.message || 'Subscription failed. Please try again.'
       }
     } else if (error.request) {
-      // Request was made but no response received
-      errorMessage.value = 'Unable to connect to server. Please check your internet connection.'
+      // No response received
+      errorMessage.value = 'Cannot connect to server. Please check your internet connection.'
     } else {
-      // Something else happened
-      errorMessage.value = 'An unexpected error occurred. Please try again.'
+      errorMessage.value = 'An error occurred. Please try again.'
     }
   } finally {
     isSubmitting.value = false
-    
-    // Auto-clear error message after 5 seconds
-    if (errorMessage.value) {
-      setTimeout(() => {
-        if (errorMessage.value) errorMessage.value = ''
-      }, 5000)
-    }
   }
 }
 </script>
 
 <style scoped>
-/* Pure Black Background */
 footer {
   background-color: #000000;
   position: relative;
 }
 
-/* Subscribe Button Styles */
 .subscribe-button {
   box-shadow: 0 2px 10px rgba(249, 168, 37, 0.25);
   position: relative;
@@ -419,13 +379,11 @@ footer {
   transform: translateY(0px);
 }
 
-/* Input focus styles */
 input:focus {
   box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.1);
   outline: none;
 }
 
-/* Toast animations */
 .toast-enter-active,
 .toast-leave-active {
   transition: all 0.3s ease;
@@ -443,19 +401,10 @@ input:focus {
   transform: translateX(0) scale(1);
 }
 
-button {
-  cursor: pointer;
-}
-
 button:disabled {
   cursor: not-allowed;
 }
 
-a, button {
-  transition: all 0.2s ease;
-}
-
-/* Spinner animation */
 @keyframes spin {
   from {
     transform: rotate(0deg);
