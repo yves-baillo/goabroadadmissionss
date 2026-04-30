@@ -322,9 +322,9 @@ const handleSubscribe = async () => {
   isSubmitting.value = true
   
   try {
-    const response = await axios.post('backendgo-production-18ba.up.railway.app', {
-      email: email.value
-    })
+  const response = await axios.post('https://backendgo-production-18ba.up.railway.app/api/subscribe', {
+  email: email.value
+})
     
     if (response.data.success) {
       toastMessage.value = response.data.message || 'Successfully subscribed! Check your inbox.'
