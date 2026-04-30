@@ -135,7 +135,6 @@
                 :disabled="isSubmitting"
                 class="w-full px-4 py-2.5 bg-black border border-gray-800 rounded-lg focus:outline-none focus:border-[#F9A825] transition-all duration-300 text-white placeholder-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-sm group-hover:border-gray-700"
               />
-             
             </div>
 
             <!-- Modern Subscribe Button -->
@@ -210,21 +209,18 @@
             &copy; {{ currentYear }} GoAbroad Admissions. All rights reserved.
           </p>
           <div class="flex gap-4">
-            <a href="" class="text-gray-600 hover:text-[#F9A825] transition-colors">Privacy Policy</a>
-            <a href="" class="text-gray-600 hover:text-[#F9A825] transition-colors">Terms of Service</a>
-                  <router-link
-            to="/dashboard"
-          >
-             <span>Admin Panel</span>
-            <i class="fas fa-arrow-right text-[10px]"></i>
-          </router-link>
-    </div>
-
+            <a href="#" class="text-gray-600 hover:text-[#F9A825] transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-600 hover:text-[#F9A825] transition-colors">Terms of Service</a>
+            <router-link to="/dashboard" class="text-gray-600 hover:text-[#F9A825] transition-colors">
+              <span>Admin Panel</span>
+              <i class="fas fa-arrow-right text-[10px]"></i>
+            </router-link>
           </div>
         </div>
       </div>
+    </div>
     
-     <!-- Success Toast Notification -->
+    <!-- Success Toast Notification -->
     <Transition name="toast">
       <div 
         v-if="showToast"
@@ -240,7 +236,6 @@
         </button>
       </div>
     </Transition>
-    
   </footer>
 </template>
 
@@ -252,7 +247,7 @@ const currentYear = new Date().getFullYear()
 const email = ref('')
 const isSubmitting = ref(false)
 const showToast = ref(false)
-const toastMessage = ref('Successfully subscribed! Check your inbox.')
+const toastMessage = ref('')
 const errorMessage = ref('')
 
 const quickLinks = [
@@ -264,10 +259,10 @@ const quickLinks = [
 ]
 
 const resources = [
-  { name: 'Study Abroad Guide' },
-  { name: 'Scholarship Tips'  },
-  { name: 'Visa Assistance' },
-  { name: 'University Rankings' },
+  { name: 'Study Abroad Guide', link: '/study-guide' },
+  { name: 'Scholarship Tips', link: '/scholarship-tips' },
+  { name: 'Visa Assistance', link: '/visa-assistance' },
+  { name: 'University Rankings', link: '/rankings' },
   { name: 'FAQs', link: '/faq' }
 ]
 
@@ -280,7 +275,7 @@ const socialLinks = [
   },
   { 
     name: 'LinkedIn', 
-    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/ ', 
+    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/', 
     icon: 'fab fa-linkedin-in', 
     bgColor: 'bg-blue-700 hover:bg-blue-800'
   },
@@ -292,56 +287,111 @@ const socialLinks = [
   },
   { 
     name: 'Instagram', 
-    url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr ', 
+    url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr', 
     icon: 'fab fa-instagram', 
     bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600'
   },
   { 
     name: 'Twitter', 
-    url: 'https://x.com/GoAbroad_Go ', 
+    url: 'https://x.com/GoAbroad_Go', 
     icon: 'fab fa-twitter', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   },
   { 
     name: 'TikTok', 
-    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5 ', 
+    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5', 
     icon: 'fab fa-tiktok', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   }
 ]
 
 const handleSubscribe = async () => {
+  // Clear previous errors
   errorMessage.value = ''
   
+  // Validate email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!email.value.trim()) {
+    errorMessage.value = 'Please enter your email address'
+    return
+  }
+  
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = 'Please enter a valid email address'
+    errorMessage.value = 'Please enter a valid email address (e.g., name@example.com)'
     return
   }
   
   isSubmitting.value = true
   
   try {
-  const response = await axios.post('https://backendgo-production-18ba.up.railway.app/api/subscribe', {
-  email: email.value
-})
+    // Make sure we're sending the email exactly as the backend expects
+    const response = await axios.post(
+      'https://backendgo-production-18ba.up.railway.app/api/subscribe',
+      { email: email.value.trim() },  // Send as { email: "value" }
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        timeout: 10000 // 10 second timeout
+      }
+    )
     
-    if (response.data.success) {
-      toastMessage.value = response.data.message || 'Successfully subscribed! Check your inbox.'
+    // Check if subscription was successful
+    if (response.data && response.data.success === true) {
+      toastMessage.value = response.data.message || 'Successfully subscribed! Check your inbox for updates.'
       showToast.value = true
-      email.value = ''
+      email.value = '' // Clear the email input
       
+      // Hide toast after 4 seconds
       setTimeout(() => {
         showToast.value = false
-      }, 3000)
+      }, 4000)
     } else {
-      errorMessage.value = response.data.message || 'Subscription failed. Please try again.'
+      // Handle case where success is false but no error thrown
+      errorMessage.value = response.data?.message || 'Subscription failed. Please try again.'
     }
+    
   } catch (error) {
-    console.error('Subscription error:', error)
-    errorMessage.value = 'Connection error. Please try again.'
+    console.error('Subscription error details:', error)
+    
+    // Handle different types of errors
+    if (error.code === 'ECONNABORTED') {
+      errorMessage.value = 'Request timed out. Please check your connection and try again.'
+    } else if (error.response) {
+      // Server responded with error status
+      console.log('Error response data:', error.response.data)
+      console.log('Error status:', error.response.status)
+      
+      if (error.response.status === 400) {
+        // Show the specific error message from the server
+        const serverMessage = error.response.data?.message
+        if (serverMessage) {
+          errorMessage.value = serverMessage
+        } else {
+          errorMessage.value = 'Invalid request. Please check your email and try again.'
+        }
+      } else if (error.response.status === 500) {
+        errorMessage.value = 'Server error. Please try again later.'
+      } else {
+        errorMessage.value = error.response.data?.message || 'Subscription failed. Please try again.'
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      errorMessage.value = 'Unable to connect to server. Please check your internet connection.'
+    } else {
+      // Something else happened
+      errorMessage.value = 'An unexpected error occurred. Please try again.'
+    }
   } finally {
     isSubmitting.value = false
+    
+    // Auto-clear error message after 5 seconds
+    if (errorMessage.value) {
+      setTimeout(() => {
+        if (errorMessage.value) errorMessage.value = ''
+      }, 5000)
+    }
   }
 }
 </script>
@@ -360,18 +410,19 @@ footer {
   overflow: hidden;
 }
 
-.subscribe-button:hover {
+.subscribe-button:hover:not(:disabled) {
   box-shadow: 0 6px 20px rgba(249, 168, 37, 0.35);
   transform: translateY(-1px);
 }
 
-.subscribe-button:active {
+.subscribe-button:active:not(:disabled) {
   transform: translateY(0px);
 }
 
 /* Input focus styles */
 input:focus {
   box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.1);
+  outline: none;
 }
 
 /* Toast animations */
@@ -396,6 +447,10 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 a, button {
   transition: all 0.2s ease;
 }
@@ -413,5 +468,4 @@ a, button {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
-
 </style>
