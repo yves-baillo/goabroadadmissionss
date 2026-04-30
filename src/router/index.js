@@ -7,6 +7,10 @@ import AboutPage from '../components/AboutPage.vue'
 import ScholarshipsPage from '../components/ScholarshipsPage.vue'
 import AppFooter from '../components/AppFooter.vue'
 import Dashboard from '../components/Dashboard.vue'
+import FaqPage from '../components/FaqPage.vue'
+import TermsPage from '../components/TermsPage.vue'
+import PrivacyPage from '../components/PrivacyPage.vue'
+import LoginPage from '../components/LoginPage.vue'
 
 const routes = [
   {
@@ -41,6 +45,22 @@ const routes = [
     component:Dashboard
   },
   
+   {
+    path:'/FAQs',
+    component:FaqPage
+  },
+    {
+    path:'/terms',
+    component:TermsPage
+  },
+    {
+    path:'/privacy',
+    component:PrivacyPage
+  },
+   {
+    path:'/login',
+    component:LoginPage
+  },
 ]
 
 const router = createRouter({

@@ -122,7 +122,7 @@
       <p class="text-center text-sm text-gray-500 mb-4">Follow us on social media</p>
       <div class="flex justify-center gap-3 flex-wrap">
         <a 
-          href="https://youtube.com/@xmaopportunitiesportal" 
+          href="https://youtube.com/@xmaopportunitiesportal?si=d1hFYNlUMgBmqc-J " 
           target="_blank"
           v-motion
           :initial="{ scale: 0 }"
@@ -133,7 +133,7 @@
           <i class="fab fa-youtube text-lg"></i>
         </a>
         <a 
-          href="https://www.linkedin.com/in/goabroad-admissions-361873399/" 
+          href=" https://www.linkedin.com/in/goabroad-admissions-361873399/ " 
           target="_blank"
           v-motion
           :initial="{ scale: 0 }"
@@ -144,7 +144,7 @@
           <i class="fab fa-linkedin-in text-lg"></i>
         </a>
         <a 
-          href="https://www.facebook.com/share/1JYd3mLj5X/" 
+          href="https://www.facebook.com/share/1JYd3mLj5X/?mibextid=wwXIfr" 
           target="_blank"
           v-motion
           :initial="{ scale: 0 }"
@@ -155,7 +155,7 @@
           <i class="fab fa-facebook-f text-lg"></i>
         </a>
         <a 
-          href="https://www.instagram.com/goabroad_admissions" 
+          href="https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr " 
           target="_blank"
           v-motion
           :initial="{ scale: 0 }"
@@ -177,7 +177,9 @@
           <i class="fab fa-twitter text-lg"></i>
         </a>
         <a 
-          href="https://www.tiktok.com/@xmaopportunitiesportal" 
+          href="https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5 
+X: https://x.com/GoAbroad_Go 
+" 
           target="_blank"
           v-motion
           :initial="{ scale: 0 }"

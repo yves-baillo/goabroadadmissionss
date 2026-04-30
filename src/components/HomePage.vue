@@ -706,7 +706,7 @@ const scrollToScholarships = () => {
 }
 
 const openCalendly = () => {
-  window.open('https://calendly.com/goabroadadmissions/one-on-one-consultation', '_blank')
+  window.open('https://calendly.com/goabroadadmissions/one-on-one-consultation ', '_blank')
 }
 
 const openGoogleForm = () => {

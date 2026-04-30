@@ -33,14 +33,8 @@
               <!-- Contact Details -->
               <div class="space-y-6">
                 <div class="flex items-start gap-4 group">
-                  <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition-all">
-                    <i class="fas fa-map-marker-alt text-purple-600 text-xl group-hover:text-white transition-all"></i>
-                  </div>
-                  <div>
-                    <h3 class="font-semibold text-gray-800 mb-1">Our Office</h3>
-                    <p class="text-gray-500">KG 541 St, Kigali, Rwanda</p>
-                  </div>
-                </div>
+                  
+                 </div>
                 
                 <div class="flex items-start gap-4 group">
                   <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition-all">
@@ -48,8 +42,8 @@
                   </div>
                   <div>
                     <h3 class="font-semibold text-gray-800 mb-1">Email Us</h3>
-                    <p class="text-gray-500">info@goabroadadmissions.com</p>
-                    <p class="text-gray-500">support@goabroadadmissions.com</p>
+                    <p class="text-gray-500"> goabroadadmissions@outlook.com</p>
+                    <p class="text-gray-500">alexishakizimana140@gmail.com</p>
                   </div>
                 </div>
                 
@@ -59,7 +53,7 @@
                   </div>
                   <div>
                     <h3 class="font-semibold text-gray-800 mb-1">Call Us</h3>
-                    <p class="text-gray-500">+250 788 123 456</p>
+                    <p class="text-gray-500">+250 789 410 951</p>
                     <p class="text-gray-500">+250 788 123 457</p>
                   </div>
                 </div>
@@ -277,25 +271,25 @@ const errorMessage = ref('')
 const socialLinks = [
   { 
     name: 'YouTube', 
-    url: 'https://youtube.com/@xmaopportunitiesportal', 
+    url: 'https://youtube.com/@xmaopportunitiesportal?si=d1hFYNlUMgBmqc-J', 
     icon: 'fab fa-youtube', 
     bgColor: 'bg-red-600 hover:bg-red-700'
   },
   { 
     name: 'LinkedIn', 
-    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/', 
+    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/ ', 
     icon: 'fab fa-linkedin-in', 
     bgColor: 'bg-blue-700 hover:bg-blue-800'
   },
   { 
     name: 'Facebook', 
-    url: 'https://www.facebook.com/share/1JYd3mLj5X/', 
+    url: ' https://www.facebook.com/share/1JYd3mLj5X/?mibextid=wwXIfr ', 
     icon: 'fab fa-facebook-f', 
     bgColor: 'bg-blue-600 hover:bg-blue-700'
   },
   { 
     name: 'Instagram', 
-    url: 'https://www.instagram.com/goabroad_admissions', 
+    url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr ', 
     icon: 'fab fa-instagram', 
     bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600'
   },
@@ -307,7 +301,7 @@ const socialLinks = [
   },
   { 
     name: 'TikTok', 
-    url: 'https://www.tiktok.com/@xmaopportunitiesportal', 
+    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5 ', 
     icon: 'fab fa-tiktok', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   }
@@ -409,10 +403,10 @@ const submitForm = async () => {
     
     if (error.response) {
       // Server responded with error
-      errorMessage.value = error.response.data?.message || 'Server error. Please try again.'
+      errorMessage.value = error.response.data?.message || 'Please try again.'
     } else if (error.request) {
       // Request made but no response
-      errorMessage.value = 'Cannot connect to server. Make sure the backend is running on port 3000'
+      errorMessage.value = 'Some thing went wrong!'
     } else {
       errorMessage.value = 'An unexpected error occurred. Please try again.'
     }

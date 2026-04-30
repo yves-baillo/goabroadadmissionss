@@ -13,7 +13,7 @@
           <img 
             src="https://i.postimg.cc/Pr3dWcht/img5-removebg-preview.png" 
             alt="GoAbroad Admissions Logo" 
-            class="w-40 h-11 object-contain brightness-110"
+            class="w-45 h-20 object-contain brightness-110"
           />
           <p class="text-xs leading-relaxed text-gray-400 max-w-xs">
             Your trusted partner in transforming international education dreams into reality. 
@@ -135,9 +135,7 @@
                 :disabled="isSubmitting"
                 class="w-full px-4 py-2.5 bg-black border border-gray-800 rounded-lg focus:outline-none focus:border-[#F9A825] transition-all duration-300 text-white placeholder-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-sm group-hover:border-gray-700"
               />
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-envelope text-gray-600 text-sm group-focus-within:text-[#F9A825] transition-colors duration-300"></i>
-              </div>
+             
             </div>
 
             <!-- Modern Subscribe Button -->
@@ -188,12 +186,8 @@
               <i class="fas fa-check-circle text-[#F9A825] text-xs"></i>
               <span class="text-xs text-gray-500">Application tips & guides</span>
             </div>
-            <div class="flex items-center gap-2">
-              <i class="fas fa-check-circle text-[#F9A825] text-xs"></i>
-              <span class="text-xs text-gray-500">Exclusive opportunities</span>
-            </div>
           </div>
-
+          
           <!-- Error Message -->
           <div v-if="errorMessage" class="mt-3 text-xs text-red-400 flex items-center gap-1 bg-red-500/10 p-2 rounded-lg">
             <i class="fas fa-exclamation-circle text-xs"></i>
@@ -216,14 +210,21 @@
             &copy; {{ currentYear }} GoAbroad Admissions. All rights reserved.
           </p>
           <div class="flex gap-4">
-            <a href="/privacy" class="text-gray-600 hover:text-[#F9A825] transition-colors">Privacy Policy</a>
-            <a href="/terms" class="text-gray-600 hover:text-[#F9A825] transition-colors">Terms of Service</a>
+            <a href="" class="text-gray-600 hover:text-[#F9A825] transition-colors">Privacy Policy</a>
+            <a href="" class="text-gray-600 hover:text-[#F9A825] transition-colors">Terms of Service</a>
+                  <router-link
+            to="/dashboard"
+          >
+             <span>Admin Panel</span>
+            <i class="fas fa-arrow-right text-[10px]"></i>
+          </router-link>
+    </div>
+
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Success Toast Notification -->
+    
+     <!-- Success Toast Notification -->
     <Transition name="toast">
       <div 
         v-if="showToast"
@@ -239,6 +240,7 @@
         </button>
       </div>
     </Transition>
+    
   </footer>
 </template>
 
@@ -262,47 +264,47 @@ const quickLinks = [
 ]
 
 const resources = [
-  { name: 'Study Abroad Guide', link: 'https://www.studying-in-germany.org/study-abroad-guide/' },
-  { name: 'Scholarship Tips', link: 'https://www.topuniversities.com/blog/scholarships/scholarship-application-tips' },
-  { name: 'Visa Assistance', link: 'https://www.travel.state.gov/content/travel/en/us-visas.html' },
-  { name: 'University Rankings', link: 'https://www.topuniversities.com/world-university-rankings' },
+  { name: 'Study Abroad Guide' },
+  { name: 'Scholarship Tips'  },
+  { name: 'Visa Assistance' },
+  { name: 'University Rankings' },
   { name: 'FAQs', link: '/faq' }
 ]
 
 const socialLinks = [
   { 
     name: 'YouTube', 
-    url: 'https://youtube.com/@xmaopportunitiesportal', 
+    url: 'https://youtube.com/@xmaopportunitiesportal?si=d1hFYNlUMgBmqc-J', 
     icon: 'fab fa-youtube', 
     bgColor: 'bg-red-600 hover:bg-red-700'
   },
   { 
     name: 'LinkedIn', 
-    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/', 
+    url: 'https://www.linkedin.com/in/goabroad-admissions-361873399/ ', 
     icon: 'fab fa-linkedin-in', 
     bgColor: 'bg-blue-700 hover:bg-blue-800'
   },
   { 
     name: 'Facebook', 
-    url: 'https://www.facebook.com/share/1JYd3mLj5X/', 
+    url: 'https://www.facebook.com/share/1JYd3mLj5X/?mibextid=wwXIfr', 
     icon: 'fab fa-facebook-f', 
     bgColor: 'bg-blue-600 hover:bg-blue-700'
   },
   { 
     name: 'Instagram', 
-    url: 'https://www.instagram.com/goabroad_admissions', 
+    url: 'https://www.instagram.com/goabroad_admissions?igsh=MXBtejh5c2Z1c3Uwdw%3D%3D&utm_source=qr ', 
     icon: 'fab fa-instagram', 
     bgColor: 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600'
   },
   { 
     name: 'Twitter', 
-    url: 'https://x.com/GoAbroad_Go', 
+    url: 'https://x.com/GoAbroad_Go ', 
     icon: 'fab fa-twitter', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   },
   { 
     name: 'TikTok', 
-    url: 'https://www.tiktok.com/@xmaopportunitiesportal', 
+    url: 'https://www.tiktok.com/@xmaopportunitiesportal?_r=1&_t=ZP-928v4nvs5z5 ', 
     icon: 'fab fa-tiktok', 
     bgColor: 'bg-gray-800 hover:bg-gray-700'
   }
@@ -320,7 +322,7 @@ const handleSubscribe = async () => {
   isSubmitting.value = true
   
   try {
-    const response = await axios.post('http://localhost:3000/api/subscribe', {
+    const response = await axios.post('backendgo-production-18ba.up.railway.app', {
       email: email.value
     })
     
@@ -411,4 +413,5 @@ a, button {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
 </style>
