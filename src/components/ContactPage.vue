@@ -368,13 +368,13 @@ const submitForm = async () => {
   
   try {
     // Send data to backend
-    const response = await axios.post('http://localhost:3000/api/contact', {
-      fullName: form.fullName,
-      email: form.email,
-      phone: form.phone,
-      subject: form.subject,
-      message: form.message
-    })
+   const response = await axios.post('https://backendgo-production-18ba.up.railway.app/api/contact', {
+  fullName: form.fullName,
+  email: form.email,
+  phone: form.phone,
+  subject: form.subject,
+  message: form.message
+})
     
     if (response.data.success) {
       // Show success message
